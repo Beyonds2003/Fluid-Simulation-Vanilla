@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,7 +7,30 @@
     <title>fluid-simulation-vanilla</title>
   </head>
   <body>
-    <div id="app"></div>
+    <canvas></canvas>
     <script type="module" src="/src/main.js"></script>
+
+    <script type="x-shader/x-fragment" id="vertexShader">
+      precision highp float;
+
+      attribute vec2 a_position;
+
+      varying vec2 vUv;
+      varying vec2 vL;
+      varying vec2 vR;
+      varying vec2 vT;
+      varying vec2 vB;
+
+      uniform vec2 u_texel;
+
+      void main() {
+        vUv = 0.5 * (a_position + 1.0);
+        vL = vUv - vec2(u_texel.x, 0.0);
+        vR = vUv + vec2(u_texel.x, 0.0);
+        vT = vUv + vec2(0.0, u_texel.y);
+        vB = vUv - vec2(0.0, u_texel.y);
+        gl_Position = vec4(a_position, 0.0, 1.0);
+      }
+    </script>
   </body>
 </html>
